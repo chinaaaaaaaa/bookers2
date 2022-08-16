@@ -1,11 +1,70 @@
-<div>
-  <p>User info：<%= image_tag @book.user.get_profile_image(100,100) %></p>
-  <p>Title：<%= @book.title %></p>
-  <p>Opinion：<%= @book.body %></p>
-  <p>name：<%= @book.user.name %></p>
-  <p>投稿日：<%= @book.created_at.strftime('%Y/%m/%d') %></p>
-  <% if @book.user == current_user %>
-    <%= link_to "Edit", edit_book_path(@book) %>
-    <%= link_to "Destroy", book_path(@book), method: :delete %>
+ <% if @book.errors.any? %>
+ <h3><%= @book.errors.count %>errors prohibited this obj from being saved:</h3>
+ 
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+<p><%= notice %></p>
+<div class="container">
+ <div class="row">
+  <div claass="col-lg-3">
+   <h2>User info</h2>
+   <p><%= image_tag @book.user.get_profile_image(100,100) %></p>
+    <table class="table">
+     <tbody>
+      <tr>
+       <th>name</th>
+       <th><%= @book.user.name %></th>
+      </tr>
+      <tr>
+       <th>introduction</th>
+       <th><%= @book.user.introduction %></th>
+      </tr>
+     </tbody>
+    </table>
+  
+  <div class="row">
+   <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
+  </div>
+   
+   <h1>New book</h1>
+   
+  <%= form_with model: @book do |f| %>
+    
+   
+    <h6>Title</h6>
+      <%= f.text_field :title %>
+    <h6>Opinion</h6>
+      <%= f.text_area :body %>
+    <p><%= f.submit 'Create Book' %></p>
   <% end %>
+  </div> 
+ 
+ 
+ 
+<div class="col-8">
+  <table class="table table-striped">
+    <h3>Book detail</h3>
+    <table class="table">
+     <tbody>
+     <tr>
+      <td>
+        <%= image_tag @book.user.get_profile_image(100, 100) %>
+        <br>
+        <%= link_to @book.user.name, user_path(@book) %>
+      </td>
+  
+      <td><%= link_to @book.title, book_path(@book) %></td>
+      <td><%= @book.body %></td>
+    
+      <td><%= link_to "Edit", edit_book_path(@book) %></td>
+      <td><%= link_to "Destroy", book_path(@book), method: :delete %></td>
+     </tr>
+     </tbody>
+    </table>
+  </table>
 </div>
+

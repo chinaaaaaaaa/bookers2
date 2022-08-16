@@ -1,21 +1,66 @@
-<div>
-  <h3><%= @user.name %></h3>
-  <%= image_tag @user.get_profile_image(100,100) %>
-  <% if @user.id == current_user.id %>
-   <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
-  <% end %>
-</div>
-
-<!-- ユーザーの投稿一覧 -->
-
-<% @books.each do |book| %>
-<div>
-  <%= link_to book_path(book.id) do %>
-    <%= image_tag book.get_image %>
-  <% end %>
-  <p>投稿ユーザー画像：<%= image_tag book.user.get_profile_image(100,100) %></p>
-  <p>Title：<%= book.title %></p>
-  <p>Opinion：<%= book.body %></p>
-  <p>ユーザーネーム：<%= book.user.name %></p>
-</div>
+<% if @user.errors.any? %>
+ <h3><%= @book.errors.count %>errors prohibited this obj from being saved:</h3>
+ 
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
 <% end %>
+<p><%= notice %></p>
+<div class="container">
+ <div class="row">
+  <div claass="col-lg-3">
+   <h2>User info</h2>
+   <p><%= image_tag @book.user.get_profile_image(100,100) %></p>
+    <table class="table">
+     <tbody>
+      <tr>
+       <th>name</th>
+       <th><%= @book.user.name %></th>
+      </tr>
+      <tr>
+       <th>introduction</th>
+       <th><%= @book.user.introduction %></th>
+      </tr>
+     </tbody>
+    </table>
+  
+  <div class="row">
+   <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
+  </div>
+   
+   <h1>New book</h1>
+   
+  <%= form_with model: @book do |f| %>
+    
+   
+    <h6>Title</h6>
+      <%= f.text_field :title %>
+    <h6>Opinion</h6>
+      <%= f.text_area :body %>
+    <p><%= f.submit 'Create Book' %></p>
+  <% end %>
+  </div> 
+  
+  <div class="col-8">
+  <table class="table table-striped">
+    <h3>Books</h3>
+    <table class="table">
+     <tbody>
+     <tr>
+      <td>
+        <%= image_tag @book.user.get_profile_image(100, 100) %>
+       
+      </td>
+  
+      <td><%= link_to @book.title, book_path(@book) %></td>
+      <td><%= @book.body %></td>
+    
+      <td><%= link_to "Edit", edit_book_path(@book) %></td>
+      <td><%= link_to "Destroy", book_path(@book), method: :delete %></td>
+     </tr>
+     </tbody>
+    </table>
+  </table>
+</div>
