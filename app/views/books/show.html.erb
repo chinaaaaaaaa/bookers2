@@ -27,12 +27,12 @@
     </table>
   
   <div class="row">
-   <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
+   <p><%= link_to "プロフィール編集", edit_user_path(@book.user) %></p>
   </div>
    
    <h1>New book</h1>
    
-  <%= form_with model: @book do |f| %>
+  <%= form_with model: @book_new do |f| %>
     
    
     <h6>Title</h6>
@@ -54,14 +54,18 @@
       <td>
         <%= image_tag @book.user.get_profile_image(100, 100) %>
         <br>
-        <%= link_to @book.user.name, user_path(@book) %>
+        <%= link_to @book.user.name, user_path(@book.user.id) %>
       </td>
   
-      <td><%= link_to @book.title, book_path(@book) %></td>
+      <td><%= link_to @book.title, user_path(@book.user.id) %></td>
       <td><%= @book.body %></td>
-    
+     <% if @book.user == current_user %>    
       <td><%= link_to "Edit", edit_book_path(@book) %></td>
       <td><%= link_to "Destroy", book_path(@book), method: :delete %></td>
+     <% else %>
+      <td></td>
+      <td></td>
+     <% end %>
      </tr>
      </tbody>
     </table>
