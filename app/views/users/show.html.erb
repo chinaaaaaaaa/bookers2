@@ -7,10 +7,11 @@
     <% end %>
   </ul>
 <% end %>
+<main>
 <p><%= notice %></p>
 <div class="container">
  <div class="row">
-  <div claass="col-lg-3">
+  <div class="col-md-3">
    <h2>User info</h2>
    <p><%= image_tag @user.get_profile_image(100,100) %></p>
 
@@ -28,40 +29,43 @@
     </table>
   
   <div class="row">
-   <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
+   <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary btn-block", method: :get do %>
+   <i class="fas fa-user-cog"></i>
+   <% end %>
   </div>
-   
-   <h1>New book</h1>
+  
+  <h2>New book</h2>
    
   <%= form_with model: @book do |f| %>
     
-   
-    <h6>Title</h6>
+   <h6>Title</h6>
       <%= f.text_field :title %>
     <h6>Opinion</h6>
       <%= f.text_area :body %>
-    <p><%= f.submit 'Create Book' %></p>
+    <p><%= f.submit "Create Book" %></p>
   <% end %>
   </div> 
+   
+ 
+  <div class="col-md-8 offset-md-1">
   
-  <div class="col-8">
-  <table class="table table-striped">
+   <h2>Books</h2>
+   <table class="table table-striped">
     <thead>
-    <h3>Books</h3>
-    <tr>
-     <th></th>
-     <th>Title</th>
+     <tr>
+      <th></th>
+      <th>Title</th>
+      <th>Opinion</th>
      
-     <th>Opinion</th>
-    
     </tr>
    </thead>
    
+  <tbody>
    <% @books.each do |book| %>
      <tr>
-      <td>
+      <td><%= link_to user_path(book.user.id) do %>
         <%= image_tag book.user.get_profile_image(100, 100) %>
-       
+        <% end %>
       </td>
   
       <td><%= link_to book.title, book_path(book) %></td>
@@ -69,17 +73,17 @@
       
        <% if book.user == current_user %>    
       <td><%= link_to "Edit", edit_book_path(book) %></td>
-      <td><%= link_to "Destroy", book_path(book), method: :delete %></td>
+      <td><%= link_to "Destroy", book_path(book),  method: :delete %></td>
      <% else %>
       <td></td>
       <td></td>
      <% end %>
     <% end %>
-    
-   
-
+ 
      </tr>
      </tbody>
     </table>
-  </table>
+   </div>
+  </div>
 </div>
+</main>
